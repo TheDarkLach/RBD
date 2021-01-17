@@ -49,6 +49,14 @@ void parse(char* in, int* modif, int &count);
 void balance(Node* &head, Node* &curr);
 void rotateLeft(Node* &head, Node* &curr);
 void rotateRight(Node* &head, Node* &curr);
+//deletion protos
+void DELETE(Node* &head, Node* &v);
+Node* getSibling(Node* &x);
+Node* successor(Node* &x);
+Node* replaceNode(Node* &x);
+void fixDoubleBlack(Node* &head, Node* &x);
+bool hasRedChild(Node* &x);
+void swapNodeValues(Node* &u, Node* &v);
 
 int main()
 {
