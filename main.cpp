@@ -101,6 +101,62 @@ int main()
       cout << endl << "Quitting..." << endl;
       run = false;
     }
+    else if (strcmp(input, "search") == 0) 
+    {
+      int val;
+      cout << ">Input value to search for: ";
+      cin >> val;
+      cin.clear();
+      cin.ignore(10000, '\n');
+      bool s = SEARCH(head, val);
+      if (s == true) 
+      {
+	      cout << val << " is in the tree." << endl;
+      } 
+      else 
+      {
+	      cout << val << " is NOT in the tree." << endl;
+      }
+    }
+    else if (strcmp(input, "delete") == 0) 
+    {
+      while (true) 
+      {
+        int val = 0;
+        cout << ">Input value to delete: ";
+        cin >> val;
+        cin.clear();
+        cin.ignore(10000, '\n');
+        bool d = SEARCH(head, val);
+        if (d == false) 
+        {
+          cout << endl << "Value not found, try agian." << endl;
+        } 
+        else 
+        {
+          //find node to be deleted
+          Node* v = head;
+          while (v->getData() != val) 
+          {
+            if (val < v->getData()) 
+            {
+              v = v->getLeft();
+            } 
+            else if (val > v->getData()) 
+            {
+              v = v->getRight();
+            }
+          }
+          DELETE(head, v);
+          break;
+        }
+      }
+    }
+    else if (strcmp(input, "quit") == 0) 
+    {
+      cout << endl << "Quitting..." << endl;
+      run = false;
+    }
     else 
     {
       cout << endl << "Invalid input. Try again." << endl;
