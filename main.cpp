@@ -598,6 +598,71 @@ void DELETE(Node* &head, Node* &v)
 }
 
 //insert double black
+void fixDoubleBlack(Node* &head, Node* &x) {
+  if (x == head)
+    return;
+
+  Node* sibling = getSibling(x);
+  Node* parent = x->getParent();
+
+  if (sibling == NULL) {
+    //if no sibling, push doublebalck up
+    fixDoubleBlack(head, parent);
+  } else {
+    if (sibling->getColor() == 1) {
+      //silbing is red
+      parent->setColor(1); //red
+      sibling->setColor(0); //black
+      if (sibling == parent->getLeft()) {
+	rotateRight(head, parent);
+      } else {
+	rotateLeft(head, parent);
+      }
+      fixDoubleBlack(head, x);
+    } else {
+      //sibling is black
+      if (hasRedChild(sibling)) {
+	//has at least 1 red child
+	if (sibling->getLeft() != NULL && sibling->getLeft()->getColor() == 1) {
+	  //sibling's left child is red
+	  if (sibling == parent->getLeft()) {
+	    //left left
+	    sibling->getLeft()->setColor(sibling->getColor());
+	    sibling->setColor(parent->getColor());
+	    rotateRight(head, parent);
+	  } else {
+	    //right left
+	    sibling->getLeft()->setColor(parent->getColor());
+	    rotateRight(head, sibling);
+	    rotateLeft(head, parent);
+	  }
+	} else {
+	  //sibling's right child is red
+	  if (sibling == parent->getLeft()) {
+	    //left right
+	    sibling->getRight()->setColor(parent->getColor());
+	    rotateLeft(head, sibling);
+	    rotateRight(head, parent);
+	  } else {
+	    //right right
+	    sibling->getRight()->setColor(sibling->getColor());
+	    sibling->setColor(parent->getColor());
+	    rotateLeft(head, parent);
+	  }
+	}
+	parent->setColor(0); //black
+      } else {
+	//two black children
+	sibling->setColor(1); //red
+	if (parent->getColor() == 0) {
+	  fixDoubleBlack(head, parent); //recursion
+	} else {
+	  parent->setColor(0); //black
+	}
+      }
+    }
+  }
+}
 
 bool hasRedChild(Node* &x) 
 { 
