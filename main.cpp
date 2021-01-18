@@ -430,3 +430,33 @@ void parse(char* in, int* modif, int &count)
     }
   } 
 }
+
+bool SEARCH(Node* curr, int val) 
+{
+  if (val == curr->getData()) 
+  {
+    return true;
+  }
+  else if (val < curr->getData()) 
+  {  //lower goes left
+    if (curr->getLeft() != NULL) 
+    {
+      SEARCH(curr->getLeft(), val);  //recursion
+    } 
+    else 
+    {
+      return false;
+    }
+  }
+  else 
+  {  //higher goes right
+    if (curr->getRight() != NULL) 
+    {
+      SEARCH(curr->getRight(), val);  //recursion
+    } 
+    else 
+    {
+      return false;
+    }
+  }
+}
