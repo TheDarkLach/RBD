@@ -563,29 +563,39 @@ void DELETE(Node* &head, Node* &v)
   }
 
   //if v has 1 child
-  if (v->getRight() == NULL || v->getLeft() == NULL) {
-    if (v == head) {
+  if (v->getRight() == NULL || v->getLeft() == NULL) 
+  {
+    if (v == head) 
+    {
       //assign value of u to v
       v->setData(u->getData());
       v->setLeft(NULL);
       v->setRight(NULL);
       //delete u
       u->~Node();
-    } else {
+    } 
+    else 
+    {
       //detach v from tree and move u up
-      if (v == parent->getLeft()) {
-	parent->setLeft(u);
-      } else {
-	parent->setRight(u);
+      if (v == parent->getLeft()) 
+      {
+	      parent->setLeft(u);
+      } 
+      else 
+      {
+	      parent->setRight(u);
       }
       //delete v
       v->~Node();
       u->setParent(parent);
-      if(bothBlack) {
-	fixDoubleBlack(head, u);
-      } else {
-	//if one is red, color u black
-	u->setColor(0);
+      if(bothBlack) 
+      {
+	      fixDoubleBlack(head, u);
+      } 
+      else 
+      {
+	      //if one is red, color u black
+	      u->setColor(0);
       }
     }
     return;
