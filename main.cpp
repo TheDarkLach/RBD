@@ -45,6 +45,7 @@ void ADD(Node* &head, Node* &curr, Node*& prev, int val);
 void READ(Node* &head);
 void PRINT(Node* root, Trunk *prev, bool isLeft);
 void parse(char* in, int* modif, int &count);
+bool SEARCH(Node* curr, int val);
 //functions for balancing/fixing tree
 void balance(Node* &head, Node* &curr);
 void rotateLeft(Node* &head, Node* &curr);
