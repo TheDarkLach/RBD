@@ -460,3 +460,37 @@ bool SEARCH(Node* curr, int val)
     }
   }
 }
+
+void swapValues(Node* &u, Node* &v) 
+{ 
+  //swap int values between the two given nodes
+  int temp; 
+  temp = u->getData(); 
+  u->setData(v->getData()); 
+  v->setData(temp); 
+}
+
+Node* getSibling(Node* &v) 
+{
+  if (v->getParent() == NULL) 
+  {
+    return NULL;
+  }
+  if (v == v->getParent()->getLeft()) 
+  {
+    return v->getParent()->getRight();
+  } else {
+    return v->getParent()->getLeft();
+  }
+}
+
+Node* successor(Node* &x) 
+{
+  //get left most value of right subtree
+  Node* a = x;
+  while (a->getLeft() != NULL) 
+  {
+    a = a->getLeft();
+  }
+  return a;
+}
