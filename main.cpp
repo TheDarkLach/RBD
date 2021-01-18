@@ -71,7 +71,7 @@ int main()
   bool run = true;
   while (run) 
   {
-    cout << endl << "You can: add, read, print, and quit." << endl;
+    cout << endl << "You can: add, read, print, search, delete, and quit." << endl;
     cin.get(input, 10);
     cin.clear();
     cin.ignore(10000, '\n');
