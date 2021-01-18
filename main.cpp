@@ -484,6 +484,30 @@ Node* getSibling(Node* &v)
   }
 }
 
+Node* replaceNode(Node* &x) 
+{
+  //if node has 2 children 
+  if (x->getLeft() != NULL && x->getRight() != NULL) 
+  {
+    Node* r = x->getRight();
+    return successor(r); 
+  }
+  //if node has no children 
+  else if (x->getLeft() == NULL && x->getRight() == NULL) 
+  {
+    return NULL;
+  }
+  //if node had one child 
+  else {
+    if (x->getLeft() != NULL) 
+    { 
+      return x->getLeft();
+    } else {
+      return x->getRight();
+    }
+  }
+}
+
 Node* successor(Node* &x) 
 {
   //get left most value of right subtree
@@ -493,4 +517,100 @@ Node* successor(Node* &x)
     a = a->getLeft();
   }
   return a;
+}
+
+void DELETE(Node* &head, Node* &v) 
+{
+  Node* u = replaceNode(v);
+  Node* parent = v->getParent();
+  //make bool that keeps track of both black
+  bool bothBlack = ((u==NULL || u->getColor()==0) && (v==NULL || v->getColor()==0));
+
+  if (u == NULL) 
+  {
+    //then v has no children
+    if (v == head) 
+    {
+      //make head null
+      head = NULL;
+    } 
+    else 
+    {
+      if (bothBlack) 
+      {
+      	fixDoubleBlack(head, v);
+      } 
+      else 
+      {
+        //one is red
+        //then make sibling red
+        if (getSibling(v) != NULL)
+          getSibling(v)->setColor(1);
+            }
+            //delete v from tree
+            if (v == parent->getLeft()) 
+            {
+              parent->setLeft(NULL);
+            } 
+            else 
+            {
+              parent->setRight(NULL);
+            }
+          }
+          //delete v
+          v->~Node();
+    return;
+  }
+
+  //if v has 1 child
+  if (v->getRight() == NULL || v->getLeft() == NULL) {
+    if (v == head) {
+      //assign value of u to v
+      v->setData(u->getData());
+      v->setLeft(NULL);
+      v->setRight(NULL);
+      //delete u
+      u->~Node();
+    } else {
+      //detach v from tree and move u up
+      if (v == parent->getLeft()) {
+	parent->setLeft(u);
+      } else {
+	parent->setRight(u);
+      }
+      //delete v
+      v->~Node();
+      u->setParent(parent);
+      if(bothBlack) {
+	fixDoubleBlack(head, u);
+      } else {
+	//if one is red, color u black
+	u->setColor(0);
+      }
+    }
+    return;
+  }
+
+  //if program got here, v has two children
+  //then, swap with successor and recurse
+  swapValues(u, v);
+  DELETE(head, u);
+}
+
+//insert double black
+
+bool hasRedChild(Node* &x) 
+{ 
+  if (x->getLeft() != NULL && x->getLeft()->getColor() == 1) 
+  {
+    return true;
+  }
+   else if (x->getRight() != NULL && x->getRight()->getColor() == 1) 
+  {
+    return true;
+  } 
+  else 
+  {
+    return false;
+  }
 }
